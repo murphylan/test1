@@ -142,8 +142,13 @@
               "devServerTarget": "deploy-ex100:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "deploy-ex100"
 }
