@@ -1,0 +1,92 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>{{title}}</span>
+        <span class="example-spacer"></span>
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="example-container mat-elevation-z8">
+    <mat-toolbar-row>
+        <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="输入过滤字符">
+        </mat-form-field>
+        <span class="example-spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <!-- <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>dialpad</mat-icon>
+                <span>Redial</span>
+            </button>
+            <button mat-menu-item disabled>
+                <mat-icon>voicemail</mat-icon>
+                <span>Check voicemail</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>notifications_off</mat-icon>
+                <span>Disable alerts</span>
+            </button>
+        </mat-menu> -->
+        <mat-menu #menu="matMenu">
+            <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                <button class="example-box" *ngFor="let col of menuColumns" mat-menu-item cdkDrag>
+                    <mat-icon>drag_handle</mat-icon>
+                    <mat-checkbox (click)="$event.stopPropagation()" [checked]=col.hide [name]=col.id
+                        (change)="hideColumns($event)">{{col.id}}</mat-checkbox>
+                </button>
+            </div>
+        </mat-menu>
+    </mat-toolbar-row>
+
+    <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+            GitHub's API rate limit has been reached. It will be reset in one minute.
+        </div>
+    </div>
+
+    <div class="example-table-container">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort matSortActive="created"
+            matSortDisableClear matSortDirection="desc">
+            <ng-container matColumnDef="menu">
+                <mat-header-cell *matHeaderCellDef>操作</mat-header-cell>
+                <mat-cell *matCellDef="let row"></mat-cell>
+                <mat-cell mat-footer-cell *matFooterCellDef></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="number">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.number}}</mat-cell>
+                <mat-cell mat-footer-cell *matFooterCellDef>汇总</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>标题</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.title}}</mat-cell>
+                <mat-cell mat-footer-cell *matFooterCellDef></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="state">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>状态</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.state}}</mat-cell>
+                <mat-cell mat-footer-cell *matFooterCellDef></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="comments">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>留言数</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.comments}}</mat-cell>
+                <mat-cell mat-footer-cell *matFooterCellDef>{{getTotalComments()}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="created">
+                <mat-header-cell *matHeaderCellDef mat-sort-header disableClear>创建时间</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.created_at | date:'yyyy-MM-dd'}}</mat-cell>
+                <mat-cell mat-footer-cell *matFooterCellDef></mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="getMenuColumns()"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: getMenuColumns()" (click)="onRowClicked(row)"></mat-row>
+            <mat-footer-row *matFooterRowDef="getMenuColumns()"></mat-footer-row>
+        </mat-table>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
