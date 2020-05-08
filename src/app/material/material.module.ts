@@ -13,9 +13,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CustomMatPaginatorIntl } from './custom-mat-paginator-intl';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { IssueDialogComponent } from './issue-dialog/issue-dialog.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [MaterialComponent],
+  declarations: [MaterialComponent, IssueDialogComponent],
   imports: [
     CommonModule,
     MaterialRoutingModule,
@@ -28,7 +32,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatMenuModule,
     DragDropModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule,
+    MatRadioModule,
+    FormsModule
   ],
   providers: [{
     provide: MatPaginatorIntl,

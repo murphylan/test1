@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Issue 编辑</h1>
+<div mat-dialog-content>
+    <mat-label class="example-label">状态：</mat-label>
+    <mat-radio-group aria-label="状态" [(ngModel)]="data.state" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" value="open">打开</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="closed">关闭</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field class="example-full-width">
+        <mat-label>标题：</mat-label>
+        <textarea matInput [(ngModel)]="data.title" rows="3" cols="40"></textarea>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-stroked-button (click)="onNoClick()" style="font-size: 1em;">关闭</button>
+    <button mat-button [mat-dialog-close]="data.title" cdkFocusInitial
+        style="font-size: 1em; margin-left: 0.5em;">保存</button>
+</div>

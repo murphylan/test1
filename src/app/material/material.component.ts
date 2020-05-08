@@ -8,6 +8,8 @@ import { GithubIssue } from '../github-api';
 import { startWith, switchMap, map, catchError } from 'rxjs/operators';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
+import { IssueDialogComponent } from './issue-dialog/issue-dialog.component';
 
 @Component({
   selector: 'app-material',
@@ -19,7 +21,7 @@ export class MaterialComponent implements AfterViewInit {
   displayedColumns: string[] = ['number', 'created', 'state', 'title', 'comments', 'menu'];
   dataSource: MatTableDataSource<GithubIssue>;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, public dialog: MatDialog) { }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -28,6 +30,7 @@ export class MaterialComponent implements AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  dicMap: any = { 'open': '打开', 'closed': '关闭' };
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
@@ -108,7 +111,17 @@ export class MaterialComponent implements AfterViewInit {
     this.displayedColumns = this.menuColumns
       .filter(item => item.hide)
       .map(item => item.id);
+  }
 
+  openDialog(githubIssue: GithubIssue): void {
+    const dialogRef = this.dialog.open(IssueDialogComponent, {
+      width: '300px',
+      data: githubIssue
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }

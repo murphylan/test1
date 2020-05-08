@@ -54,7 +54,7 @@
             matSortDisableClear matSortDirection="desc">
             <ng-container matColumnDef="menu">
                 <mat-header-cell *matHeaderCellDef>操作</mat-header-cell>
-                <mat-cell *matCellDef="let row"></mat-cell>
+                <mat-cell *matCellDef="let row"><mat-icon color="accent" (click)="openDialog(row)">edit</mat-icon></mat-cell>
                 <mat-cell mat-footer-cell *matFooterCellDef></mat-cell>
             </ng-container>
             <ng-container matColumnDef="number">
@@ -69,7 +69,7 @@
             </ng-container>
             <ng-container matColumnDef="state">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>状态</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.state}}</mat-cell>
+                <mat-cell *matCellDef="let row">{{row.state | i18nSelect: dicMap }}</mat-cell>
                 <mat-cell mat-footer-cell *matFooterCellDef></mat-cell>
             </ng-container>
             <ng-container matColumnDef="comments">

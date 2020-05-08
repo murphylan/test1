@@ -1,0 +1,26 @@
+.example-radio-group {
+    display: flex;
+    flex-direction: row;
+    margin: 12px 0;
+    font-size: 12px
+}
+
+.example-radio-button {
+    margin: 5px;
+}
+
+.example-full-width {
+    width: 230px;
+  }
+
+  .example-label {
+    display: table-cell;
+    font-size: 12px;
+    margin-left: 8px;
+    width: 120px;
+    color: grey;
+  }
+
+.button-size{
+    font-size:14px
+}
